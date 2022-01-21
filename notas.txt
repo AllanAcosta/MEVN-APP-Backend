@@ -1,0 +1,8 @@
+En caso de error con el comando exec utilizando estos parametros
+// "start": "node index.js",
+// "dev": "nodemon index.js --exec babel-node",
+
+Cambiar por
+"start": "babel-node index.js", 
+"dev" : "nodemon --exec npm start",
+
