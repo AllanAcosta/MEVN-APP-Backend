@@ -6,7 +6,7 @@ export default {
       const reg = await models.Categoria.create(req.body)
       res.status(200).json(reg)
     }catch(e){
-      reg.status(500).send({
+      res.status(500).send({
         message: "ocurrio un error"
       })
       next(e)
@@ -25,7 +25,7 @@ export default {
         res.status(200).json(reg)
       }
     }catch(e){
-      reg.status(500).send({
+      res.status(500).send({
         message: "ocurrio un error"
       })
       next(e)
@@ -33,6 +33,7 @@ export default {
   }, 
   list: async (req, res, next) =>{
     try{
+      console.log(res)
       let valor = req.query.valor
       const reg = await models.Categoria
       .find(
@@ -50,7 +51,8 @@ export default {
 
       res.status(200).json(reg)
     }catch(e){
-      reg.status(500).send({
+      consol.log(e)
+      res.status(500).send({
         message: "ocurrio un error"
       })
       next(e)
@@ -68,7 +70,7 @@ export default {
         })
       res.status(200).json(reg)
     }catch(e){
-      reg.status(500).send({
+      res.status(500).send({
         message: "ocurrio un error"
       })
       next(e)
@@ -83,7 +85,7 @@ export default {
       )
       res.status(200).json(reg)
     }catch(e){
-      reg.status(500).send({
+      res.status(500).send({
         message: "ocurrio un error"
       })
       next(e)
@@ -100,7 +102,7 @@ export default {
         })
       res.status(200).json(reg)
     }catch(e){
-      reg.status(500).send({
+      res.status(500).send({
         message: "ocurrio un error"
       })
       next(e)
@@ -117,7 +119,7 @@ export default {
         })
       res.status(200).json(reg)
     }catch(e){
-      reg.status(500).send({
+      res.status(500).send({
         message: "ocurrio un error"
       })
       next(e)
