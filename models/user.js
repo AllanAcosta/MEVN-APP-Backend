@@ -1,18 +1,19 @@
 import mongoose, { Schema } from "mongoose";
-import joi from "@hapi/joi"
 
 const userSchema = new Schema({
-  name: {
+  username: {
     type: String,
     required: true,
-    min: 6,
-    max: 255,
+    unique: true,
+    min: 4,
+    max: 64,
   },
   email: {
     type: String,
     required: true,
+    uniquer:true,
     min: 6,
-    max: 1024,
+    max: 48,
   },
   estado: {
     type: Number,
