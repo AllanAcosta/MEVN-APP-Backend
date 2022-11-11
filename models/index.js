@@ -1,9 +1,9 @@
-import Categoria from './categoria'
-import Articulo from './articulo'
-import User from './user'
+import Category from "./category"
+import Item from "./Item"
+import User from "./user"
 
 export default {
-  Categoria,
-  Articulo,
-  User
+  Category,
+  Item,
+  User,
 }

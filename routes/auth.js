@@ -3,6 +3,8 @@ import userController from '../controllers/userController'
 
 const router=routerx()
 
+router.post('/login',userController.login)
+
 router.post('/add',userController.add)
 router.get('/query',userController.query)
 router.get('/list',userController.list)

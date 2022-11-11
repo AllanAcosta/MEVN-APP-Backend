@@ -1,9 +1,14 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose, { Schema } from "mongoose"
 
 const userSchema = new Schema({
+  role: {
+    type: String,
+    min: 4,
+    max: 64,
+    required: true,
+  },
   username: {
     type: String,
-    required: true,
     unique: true,
     min: 4,
     max: 64,
@@ -11,7 +16,7 @@ const userSchema = new Schema({
   email: {
     type: String,
     required: true,
-    uniquer:true,
+    unique: true,
     min: 6,
     max: 48,
   },
@@ -28,8 +33,8 @@ const userSchema = new Schema({
     type: Date,
     default: Date.now,
   },
-});
+})
 
-const User = mongoose.model("user", userSchema);
+const User = mongoose.model("user", userSchema)
 
-export default User;
+export default User

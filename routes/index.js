@@ -1,12 +1,12 @@
-import routerx from 'express-promise-router'
-import categoriaRouter from './categoria'
-import articuloRouter from './articulo'
-import authRoutes from './auth'
+import routerx from "express-promise-router"
+import categoryRouter from "./category"
+import itemRouter from "./item"
+import authRoutes from "./user"
 
-const router=routerx()
+const router = routerx()
 
-router.use('/user', authRoutes)
-router.use('/categoria' ,categoriaRouter)
-router.use('/articulo' ,articuloRouter)
+router.use("/category", categoryRouter)
+router.use("/item", itemRouter)
+router.use("/user", authRoutes)
 
 export default router
