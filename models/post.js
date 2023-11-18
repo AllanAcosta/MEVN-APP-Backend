@@ -1,4 +1,4 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose, { Schema } from "mongoose"
 
 const postSchema = new Schema({
   category: {
@@ -50,8 +50,8 @@ const postSchema = new Schema({
     type: Date,
     default: Date.now,
   },
-});
+})
 
-const Post = mongoose.model("post", postSchema);
+const Post = mongoose.model("post", postSchema)
 
-export default Post;
+export default Post

@@ -36,10 +36,7 @@ export default {
       let valor = req.query.valor
       const reg = await models.Item.find(
         {
-          $or: [
-            { name: new RegExp(valor, "i") },
-            { description: new RegExp(valor, "i") },
-          ],
+          $or: [{ name: new RegExp(valor, "i") }, { description: new RegExp(valor, "i") }],
         },
         {
           createdAt: 0,

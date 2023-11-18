@@ -15,7 +15,6 @@ async function checkToken(token) {
   })
 
   if (user) {
-    console.log(user)
     const token = jwt.sign({ _id: __id }, "secret", { expiresIn: "1d" })
   }
   return token
@@ -41,7 +40,6 @@ export default {
         return false
       }
     } catch (error) {
-      console.log("catch it")
       const newToken = await checkToken(token)
       return newToken
     }
