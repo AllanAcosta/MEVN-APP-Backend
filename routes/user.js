@@ -4,9 +4,10 @@ import auth from "../middlewares/auth"
 
 const router = routerx()
 
+router.post("/register", userController.register)
 router.post("/login", userController.login)
+router.post("/auth", userController.userAuth)
 
-router.post("/add", auth.verifyUser, userController.add)
 router.get("/query", auth.verifyUser, userController.query)
 router.get("/list", auth.verifyUser, userController.list)
 router.put("/update", auth.verifyUser, userController.update)
