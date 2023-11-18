@@ -3,15 +3,30 @@ import mongoose, { Schema } from "mongoose"
 const userSchema = new Schema({
   role: {
     type: String,
-    min: 4,
-    max: 64,
+    max: 4,
+    default: "User",
+  },
+  firstName: {
+    type: String,
+    required: true,
+    min: 6,
+    max: 48,
+  },
+  lastName: {
+    type: String,
+    required: true,
+    min: 6,
+    max: 48,
+  },
+  gender: {
+    type: String,
     required: true,
   },
-  username: {
-    type: String,
-    unique: true,
-    min: 4,
-    max: 64,
+  age: {
+    type: Number,
+    required: true,
+    min: 18,
+    max: 300,
   },
   email: {
     type: String,
@@ -20,14 +35,18 @@ const userSchema = new Schema({
     min: 6,
     max: 48,
   },
-  estado: {
-    type: Number,
-    default: 1,
+  bio: {
+    type: String,
+    max: 600,
   },
   password: {
     type: String,
     required: true,
     minlength: 6,
+  },
+  estado: {
+    type: Number,
+    default: 1,
   },
   date: {
     type: Date,
