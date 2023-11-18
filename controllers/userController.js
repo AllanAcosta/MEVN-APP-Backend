@@ -1,14 +1,11 @@
 import models from "../models"
 import bcryptjs from "bcryptjs"
-import token from "../services/token.js"
+import tokenService from "../services/token"
 
 export default {
-  add: async (req, res, next) => {
+  register: async (req, res, next) => {
     const regexAlphaOnly = /^[A-Za-z]+$/
     const regexEmail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g
-
-    const username = req.body.username
-    let usrValidationStatus = false
 
     const email = req.body.email
     let emailValidationStatus = false
@@ -19,20 +16,6 @@ export default {
     // const emailRegisterCheck = await models.User.findOne({
     //   email: req.query.email,
     // })
-
-    if (username != null && username != "") {
-      if (regexAlphaOnly.test(username) === true) {
-        usrValidationStatus = true
-      } else {
-        res.status(500).send({
-          message: "El nombre solo debe contener letras.",
-        })
-      }
-    } else {
-      res.status(500).send({
-        message: "El nombre de usuario no debe estar vacio.",
-      })
-    }
 
     if (email != null || email != "") {
       if (regexEmail.test(email) == true) {
@@ -48,29 +31,18 @@ export default {
       })
     }
 
-    if (role != null && role != "") {
-      roleValidationStatus = true
-    } else {
-      res.status(500).send({
-        message: "El rol del usuario es obligatorio",
-      })
-    }
-
-    if (
-      usrValidationStatus === true &&
-      emailValidationStatus === true &&
-      roleValidationStatus === true
-    ) {
-      const usrNameRegisterCheck = await models.User.findOne({
-        username: req.body.username,
+    if (emailValidationStatus === true) {
+      const emailRegisterCheck = await models.User.findOne({
+        email: req.body.email,
       })
 
-      if (!usrNameRegisterCheck) {
+      if (!emailRegisterCheck) {
         try {
           req.body.password = await bcryptjs.hash(req.body.password, 10)
-          const reg = models.User.create(req.body)
+          const reg = await models.User.create(req.body)
+
           res.status(200).send({
-            message: "Usuario Registrado",
+            message: "Usuario Registrado Exitosamente",
           })
         } catch (e) {
           res.status(500).send({
@@ -80,9 +52,14 @@ export default {
         }
       } else {
         res.status(500).send({
-          message: "El usuario ya existe",
+          message: "El email ya ha sido registrado",
         })
       }
+    } else {
+      res.status(500).send({
+        message: "El usuario ya existe",
+      })
+      next
     }
   },
   query: async (req, res, next) => {
@@ -107,10 +84,9 @@ export default {
   list: async (req, res, next) => {
     try {
       let valor = req.query.valor
-      console.log(req.query)
       const reg = await models.User.find(
         {
-          $or: [{ username: new RegExp(valor, "i") }],
+          $or: [{ email: new RegExp(valor, "i") }],
         },
         {
           createdAt: 0,
@@ -131,7 +107,6 @@ export default {
       const reg0 = await models.User.findOne({
         _id: req.body._id,
       })
-      console.log(reg0)
 
       if (password != reg0.password) {
         req.body.password = await bcryptjs.hash(req.body.password, 10)
@@ -142,7 +117,6 @@ export default {
           _id: req.body._id,
         },
         {
-          username: req.body.username,
           email: req.body.email,
         }
       )
@@ -207,7 +181,6 @@ export default {
     try {
       let user = await models.User.findOne({
         email: req.body.email,
-        estado: 1,
       })
 
       if (user) {
@@ -215,10 +188,12 @@ export default {
         let match = await bcryptjs.compare(req.body.password, user.password)
 
         if (match) {
-          let tokenOutput = await token.encode(user.id)
-          res.status(200).json({ user, tokenOutput })
+          const userToken = await tokenService.encode(user.id)
+          const reg = await models.Backlog.create({ user })
+
+          res.status(200).json({ user, userToken })
         } else {
-          res.status(404).send({
+          res.status(403).send({
             message: "Password Incorrecto",
           })
         }
@@ -232,6 +207,26 @@ export default {
         message: "ha ocurrido un error",
       })
       next(e)
+    }
+  },
+  userAuth: async (req, res, next) => {
+    if (!req.headers.token) {
+      return res.status(404).send({
+        message: "No Token",
+      })
+    }
+    const response = await tokenService.decode(req.headers.token)
+    if (response) {
+      return res.status(200).send({
+        authenticated: true,
+        message: "User is authenticated",
+      })
+      next()
+    } else {
+      return res.status(403).send({
+        authenticated: false,
+        message: "Not Authorized",
+      })
     }
   },
 }
