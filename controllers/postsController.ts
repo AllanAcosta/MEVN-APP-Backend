@@ -1,4 +1,4 @@
-import models from '../models'
+import models from "../models"
 
 export default {
   add: async (req, res, next) => {
@@ -7,7 +7,7 @@ export default {
       res.status(200).json(reg)
     } catch (e) {
       res.status(500).send({
-        message: 'ocurrio un error',
+        message: "ocurrio un error",
       })
       next(e)
     }
@@ -19,14 +19,14 @@ export default {
       })
       if (!reg) {
         res.status(404).send({
-          message: 'El Registro no existe',
+          message: "El Registro no existe",
         })
       } else {
         res.status(200).json(reg)
       }
     } catch (e) {
       res.status(500).send({
-        message: 'ocurrio un error',
+        message: "ocurrio un error",
       })
       next(e)
     }
@@ -36,7 +36,7 @@ export default {
       let valor = req.query.valor
       const reg = await models.Category.find(
         {
-          $or: [{ name: new RegExp(valor, 'i') }, { description: new RegExp(valor, 'i') }],
+          $or: [{ name: new RegExp(valor, "i") }, { description: new RegExp(valor, "i") }],
         },
         {
           createdAt: 0,
@@ -45,9 +45,8 @@ export default {
 
       res.status(200).json(reg)
     } catch (e) {
-      consol.log(e)
       res.status(500).send({
-        message: 'ocurrio un error',
+        message: "ocurrio un error",
       })
       next(e)
     }
@@ -66,7 +65,7 @@ export default {
       res.status(200).json(reg)
     } catch (e) {
       res.status(500).send({
-        message: 'ocurrio un error',
+        message: "ocurrio un error",
       })
       next(e)
     }
@@ -79,7 +78,7 @@ export default {
       res.status(200).json(reg)
     } catch (e) {
       res.status(500).send({
-        message: 'ocurrio un error',
+        message: "ocurrio un error",
       })
       next(e)
     }
@@ -97,7 +96,7 @@ export default {
       res.status(200).json(reg)
     } catch (e) {
       res.status(500).send({
-        message: 'ocurrio un error',
+        message: "ocurrio un error",
       })
       next(e)
     }
@@ -115,7 +114,7 @@ export default {
       res.status(200).json(reg)
     } catch (e) {
       res.status(500).send({
-        message: 'ocurrio un error',
+        message: "ocurrio un error",
       })
       next(e)
     }

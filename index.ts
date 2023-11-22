@@ -5,16 +5,13 @@ import path from "path"
 import mongoose from "mongoose"
 import router from "./routes"
 
-const __dirname = path.resolve(path.dirname(""))
+const dirname = path.resolve(path.dirname(""))
+
 
 mongoose.Promise = global.Promise
 const dbUrl = "mongodb://127.0.0.1:27017/test"
 mongoose
-  .connect(dbUrl, {
-    useCreateIndex: true,
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
+  .connect(dbUrl)
   .then((mongoose) => console.log("connecting DB on port 27017"))
   .catch((err) => console.log(err))
 
@@ -29,7 +26,7 @@ app.use(
     extended: true,
   })
 )
-app.use(express.static(path.join(__dirname, "public")))
+app.use(express.static(path.join(dirname, "public")))
 
 app.use("/api", router)
 
